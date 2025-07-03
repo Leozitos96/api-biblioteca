@@ -3,6 +3,8 @@ const express = require('express');
 const app = express();
  
 const PORT = 3001;
+
+const livrosDB = require("./livros.json")
  
 app.use(express.json());
  
@@ -10,14 +12,7 @@ app.listen(PORT, () => {
   console.log(`Servidor iniciado na porta ${PORT}`);
 });
  
-let livros = [
-  { id: 1, titulo: "A Máquina do Tempo", autor: "H.G. Wells" },
-  { id: 2, titulo: "A Biblioteca Invisível", autor: "Genevieve Cogman" },
-  { id: 3, titulo: "O Código da Vinci", autor: "Dan Brown" },
-  { id: 4, titulo: "Neuromancer", autor: "William Gibson" },
-  { id: 5, titulo: "As Crônicas Marcianas", autor: "Ray Bradbury" },
-];
-
+const livros = [livrosDB.livros];
  
 app.get('/', (req, res) => {
   res.send(`
@@ -64,7 +59,7 @@ app.get('/', (req, res) => {
 });
    
 app.get('/livros', (req, res) => {
-  res.json(livros);
+  res.json(livrosDB);
 });
  
 app.get('/livros/:id', (req, res) => {
@@ -79,17 +74,20 @@ app.get('/livros/:id', (req, res) => {
 });
  
 
+
 app.post('/livros', (req, res) => {
-   const { titulo , autor } = req.body;
- 
-    if (!titulo || !autor) {
-      return res.status(400).json({ error: "Título e autor são obrigatórios" });
-    }
- 
-  const novoLivro = {id: livros.length + 1, titulo, autor}
- 
-  livros.push(novaTarefa);
-  res.status(201).json(novaTarefa);
+  const { titulo, autor } = req.body;
+
+  if (!titulo || !autor) {
+    return res.status(400).json({ error: "Título e autor são obrigatórios" });
+  }
+
+
+  
+  const novoLivro = { id: novoId, titulo, autor };
+
+  livros.push(novoLivro);
+  res.status(201).json(novoLivro);
 });
 
  
